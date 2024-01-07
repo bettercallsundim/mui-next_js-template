@@ -11,7 +11,16 @@ export default function Home() {
         </Typography>
         <Stack direction="row" spacing={2}>
           <Button color="secondary">Secondary</Button>
-          <Button variant="contained" className="bg-sky-400 hover:bg-sky-800">
+          <Button
+            sx={{
+              backgroundColor: "red",
+              "&:hover": {
+                backgroundColor: "green",
+              },
+            }}
+            variant="contained"
+            className=""
+          >
             Success
           </Button>
           <Button variant="outlined" color="error">
