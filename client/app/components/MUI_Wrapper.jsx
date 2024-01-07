@@ -1,15 +1,19 @@
 "use client";
+import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/react";
 import {
   CssBaseline,
   StyledEngineProvider,
   ThemeProvider,
   createTheme,
 } from "@mui/material";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
-import { memo } from "react";
-
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { Poppins } from "next/font/google";
-
+import { memo } from "react";
+const cache = createCache({
+  key: "css",
+  prepend: true,
+});
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -30,14 +34,16 @@ const theme = createTheme({
 });
 const MUI_Wrapper = memo(({ children }) => {
   return (
-    <ThemeProvider theme={theme}>
-      <AppRouterCacheProvider>
+    <CacheProvider value={cache}>
+      <AppRouterCacheProvider options={{ enableCssLayer: true }}>
         <StyledEngineProvider injectFirst>
-          <CssBaseline />
-          {children}
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            {children}
+          </ThemeProvider>
         </StyledEngineProvider>
       </AppRouterCacheProvider>
-    </ThemeProvider>
+    </CacheProvider>
   );
 });
 
